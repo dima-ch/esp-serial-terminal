@@ -2,10 +2,10 @@ esp-serial-terminal
 ==========================
 
 Connect to PC WiFi controlled serial port and power button.
-Disigned for controll home srver witout monitor and keyboard. It allows controll grub bootloader, input password for encrypdted root partition and connest to linux ttySX terminal. Remotly.
+Disigned for controll home srver witout monitor and keyboard. It allows controll grub bootloader, input password for encrypdted root partition and type comman in linux ttySX terminal. Remotly.
 
-* Hardware:
-Curently availeble for esp-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO14 - becose on this GPIO logic level not change during boot.
+* Hardware: 
+Currently available for esp-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO 14 - because this GPIO logic level not change during boot.
 
 
 * Optional by compile time defines:
