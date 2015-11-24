@@ -34,6 +34,9 @@ void config_parse(serverConnData *conn, char *buf, int len);
 
 void config_gpio(void);
 
+#define LED_PIN 2
+#define POWERBUTTON_PIN 14
+
 #endif
 
 #endif /* __CONFIG_H__ */

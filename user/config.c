@@ -83,6 +83,12 @@ void config_gpio(void) {
 	PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_GPIO2);
 	//Set GPIO2 high
 	gpio_output_set(BIT2, 0, BIT2, 0);
+
+
+	//Set GPIO14 to output mode
+	PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTMS_U, FUNC_GPIO14);
+	//Set GPIO2 high
+	GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
 }
 #endif
 
@@ -190,31 +196,34 @@ void config_cmd_reset(serverConnData *conn, uint8_t argc, char *argv[]) {
 
 
 #ifdef CONFIG_GPIO
-void config_cmd_gpio2(serverConnData *conn, uint8_t argc, char *argv[]) {
+void config_cmd_power_button(serverConnData *conn, uint8_t argc, char *argv[]) {
 	if (argc == 0)
-		espbuffsentprintf(conn, "Args: 0=low, 1=high, 2 <delay in ms>=reset (delay optional).\r\n");
+		espbuffsentprintf(conn, "Args: SHORT - 0.5s press, LONG - 5s press, HARDRESET - 5s press, 2s pause, 0.5s press\r\n");
 	else {
-		uint32_t gpiodelay = 100;
-		if (argc == 2) {
-			gpiodelay = atoi(argv[2]);
+		if (!strcmp(argv[1], "SHORT")) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+			os_delay_us(500*1000);
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			espbuffsentstring(conn, "SHORT PRESS\r\n");
 		}
-		uint8_t gpio = atoi(argv[1]);
-		if (gpio < 3) {
-			if (gpio == 0) {
-				gpio_output_set(0, BIT2, BIT2, 0);
-				espbuffsentstring(conn, "LOW\r\n");
-			}
-			if (gpio == 1) {
-				gpio_output_set(BIT2, 0, BIT2, 0);
-				espbuffsentstring(conn, "HIGH\r\n");
-			}
-			if (gpio == 2) {
-				gpio_output_set(0, BIT2, BIT2, 0);
-				os_delay_us(gpiodelay*1000);
-				gpio_output_set(BIT2, 0, BIT2, 0);
-				espbuffsentprintf(conn, "RESET %d ms\r\n",gpiodelay);
-			}
-		} else {
+		else if (!strcmp(argv[1], "LONG")) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+			os_delay_us(5000*1000);
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			espbuffsentstring(conn, "LONG PRESS\r\n");
+		}
+		else if (!strcmp(argv[1], "HARDRESET"))  {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+			os_delay_us(5000*1000);
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			os_delay_us(1000*1000);
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+			os_delay_us(500*1000);
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			espbuffsentstring(conn, "LONG PRESS\r\n");
+		}
+		else
+		{
 			espbuffsentstring(conn, MSG_ERROR);
 		}
 	}
@@ -447,7 +456,7 @@ const config_commands_t config_commands[] = {
 		{ "STA", &config_cmd_sta },
 		{ "AP", &config_cmd_ap },
 		{ "FLASH", &config_cmd_flash },
-		{ "GPIO2", &config_cmd_gpio2 },
+		{ "PWBTN", &config_cmd_power_button },
 		{ NULL, NULL }
 	};
 
