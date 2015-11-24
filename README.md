@@ -1,19 +1,13 @@
-ESP8266-transparent-bridge
+esp-serial-terminal
 ==========================
 
-[![Join the chat at https://gitter.im/beckdac/ESP8266-transparent-bridge](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/beckdac/ESP8266-transparent-bridge?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Connect to PC WiFi controlled serial port and power button.
+Disigned for controll home srver witout monitor and keyboard. It allows controll grub bootloader, input password for encrypdted root partition and connest to linux ttySX terminal. Remotly.
 
-Absolutely transparent bridge for the ESP8266
+* Hardware:
+Curently availeble for esp-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO14 - becose on this GPIO logic level not change during boot.
 
-This is really basic firmware for the ESP that creates a totally transparent TCP socket to ESP UART0 bridge. Characters come in on one interface and go out the other. The totally transparent bridge mode is something that has been missing and is available on higher priced boards.
 
-**Pros: **
-
-* It works. Do you already have a serial project to which you just want to add WiFi? This is your ticket. No more dealing with the AT command set.
-* You can program your Arduino over WiFi. Just hit the reset button and upload your sketch using avrdude's socket port, e.g.
-```
-avrdude -c avrisp -p m328p -P net:192.168.4.1:23 -F -U flash:w:mySketch.hex:i
-```
 * Optional by compile time defines:
  * Static configuration each time the unit boots from values defined in user/config.h.  Uncomment the following line in user/config.h:
 ```
@@ -26,6 +20,7 @@ avrdude -c avrisp -p m328p -P net:192.168.4.1:23 -F -U flash:w:mySketch.hex:i
 Telnet into the module and issue commands prefixed by +++AT to escape each command from bridge mode.  The dynamic configuration commands are:
 ```
 +++AT                                    # do nothing, print OK
++++AT PWBTN <duration: SHORT, LONG, HARDRESET>
 +++AT MODE                               # print current opmode
 +++AT MODE <mode: 1= STA, 2= AP, 3=both> # set current opmode
 +++AT STA                                # print current ssid and password connected to
@@ -40,7 +35,6 @@ Telnet into the module and issue commands prefixed by +++AT to escape each comma
 +++AT FLASH                              # print current flash settings
 +++AT FLASH <1|0>                        # 1: The changed UART settings (++AT BAUD ...) are saved ( Default after boot), 0= no save to flash.
 +++AT RESET                              # software reset the unit
-+++AT GPIO2 <0|1|2 100>                  # 1: pull GPIO2 pin up (HIGH) 0: pull GPIO2 pin down (LOW) 2: reset GPIO2, where 100 is optional to specify reset delay time in ms (default 100ms)
 ```
 Upon success, all commands send back "OK" as their final output.  Note that passwords may not contain spaces.
 
