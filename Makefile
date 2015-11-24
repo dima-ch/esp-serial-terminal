@@ -12,13 +12,13 @@ BUILD_BASE	= build
 FW_BASE		= firmware
 
 # Base directory for the compiler
-XTENSA_TOOLS_ROOT ?= /opt/Espressif/crosstool-NG/builds/xtensa-lx106-elf/bin
+XTENSA_TOOLS_ROOT ?= /home/dima/.bin/esp-open-sdk/xtensa-lx106-elf/bin
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= /opt/Espressif/ESP8266_SDK
+SDK_BASE	?= /home/dima/.bin/esp-open-sdk/esp_iot_sdk_v1.2.0
 
 #Esptool.py path and port
-ESPTOOL		?= esptool.py
+ESPTOOL		?= /home/dima/.bin/esp-open-sdk/esptool/esptool.py
 ESPPORT		?= /dev/ttyUSB0
 
 # name for the target project
@@ -62,7 +62,7 @@ LD		:= $(XTENSA_TOOLS_ROOT)/xtensa-lx106-elf-gcc
 ####
 #### no user configurable options below here
 ####
-FW_TOOL		?= /usr/bin/esptool
+FW_TOOL		?= /home/dima/.bin/esptool/esptool
 SRC_DIR		:= $(MODULES)
 BUILD_DIR	:= $(addprefix $(BUILD_BASE)/,$(MODULES))
 
