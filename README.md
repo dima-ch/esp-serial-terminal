@@ -1,15 +1,14 @@
 esp-serial-terminal
 ==========================
-
-Connect to PC WiFi controlled serial port and power button.
-Disigned for controll home srver witout monitor and keyboard. It allows controll grub bootloader, input password for encrypdted root partition and type comman in linux ttySX terminal. Remotly.
+WiFi serial port bridge. Additional feature - hard reset (off/on) PC by press and hold power button. 
+Applicable for remote controll home server without monitor and keyboard. It allows choise OS in grub bootloader, input password for encrypdted root partition and type command in linux ttySX terminal.
 
 #Hardware
 Currently available for esp-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO 14 - because this GPIO logic level not change during boot.
 
 #Indication
-* GPIO02 LED blink if esp-serial-terminal start. 
-* If telnet client is connected LED blink slowly.
+* GPIO02 LED blink if esp-serial-terminal start
+* If telnet client is connected LED blink slowly
 
 #Configuration
 * Optional by compile time defines:
@@ -135,3 +134,6 @@ COM5                                     in Makefile_VS2013 for flash
 
 #Debian based linux server example config
 https://help.ubuntu.com/community/SerialConsoleHowto
+
+#TODO
+* error in schematic, wronr DB9 pins
