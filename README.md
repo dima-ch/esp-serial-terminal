@@ -3,6 +3,8 @@ esp-serial-terminal
 ESP8266 WiFi serial port bridge. Additional feature - hard reset (off/on) PC by press and hold power button. 
 Applicable for remote controll home server without monitor and keyboard. It allows choise OS in grub bootloader, input password for encrypdted root partition and type command in linux ttySX terminal.
 
+Firmware fork from [ESP8266-transparent-bridge project](https://github.com/beckdac/ESP8266-transparent-bridge).
+
 #Hardware
 Currently available for ESP8266 ESP-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO 14 - because this GPIO logic level not change during boot.
 
@@ -136,4 +138,4 @@ COM5                                     in Makefile_VS2013 for flash
 https://help.ubuntu.com/community/SerialConsoleHowto
 
 #TODO
-* error in schematic, wronr DB9 pins
+* error in schematic, wrong DB9 pins
