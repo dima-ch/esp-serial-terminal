@@ -46,33 +46,37 @@ void led_rutine(void){
 	counter++;
 }
 
+#define PWBTN_SHORT_PRESS_TICKS PWBTN_SHORT_PRESS_MS / TIMER_DURATION_MS
+#define PWBTN_LONG_PRESS_TICKS PWBTN_LONG_PRESS_MS / TIMER_DURATION_MS
+#define PWBTN_HARDRESET_PAUSE_TICKS PWBTN_HARDRESET_PAUSE_MS / TIMER_DURATION_MS
+
 void gpio_rutine(void){
 	static int i = 0;
 	if (short_press_flag) {
 		if (i++ == 0) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-		} else if (i > 1) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			GPIO_OUTPUT_SET(PWBTN_PIN, 1);
+		} else if (i > PWBTN_SHORT_PRESS_TICKS) {
+			GPIO_OUTPUT_SET(PWBTN_PIN, 0);
 			short_press_flag = 0;
 			i = 0;
 		}
 	} else if (long_press_flag) {
 		if (i++ == 0) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-		} else if (i > 10) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			GPIO_OUTPUT_SET(PWBTN_PIN, 1);
+		} else if (i > PWBTN_LONG_PRESS_TICKS) {
+			GPIO_OUTPUT_SET(PWBTN_PIN, 0);
 			long_press_flag = 0;
 			i = 0;
 		}
 	} else if (hardrest_press_flag) {
 		if (i++ == 0) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-		} else if (i == 10) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
-		} else if(i == 14){
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-		} else if(i > 15){
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			GPIO_OUTPUT_SET(PWBTN_PIN, 1);
+		} else if (i == PWBTN_LONG_PRESS_TICKS) {
+			GPIO_OUTPUT_SET(PWBTN_PIN, 0);
+		} else if(i == PWBTN_LONG_PRESS_TICKS + PWBTN_HARDRESET_PAUSE_TICKS){
+			GPIO_OUTPUT_SET(PWBTN_PIN, 1);
+		} else if(i > PWBTN_LONG_PRESS_TICKS + PWBTN_HARDRESET_PAUSE_TICKS + PWBTN_SHORT_PRESS_TICKS){
+			GPIO_OUTPUT_SET(PWBTN_PIN, 0);
 			hardrest_press_flag = 0;
 			i = 0;
 		}
@@ -150,7 +154,7 @@ void ICACHE_FLASH_ATTR user_init(void)
 
     os_timer_disarm(&main_timer);
 	os_timer_setfn(&main_timer, (os_timer_func_t *)main_timer_callback, NULL);
-	os_timer_arm(&main_timer, 500, 1);
+	os_timer_arm(&main_timer, TIMER_DURATION_MS, 1);
 
 	system_os_task(recvTask, recvTaskPrio, recvTaskQueue, recvTaskQueueLen);
 }

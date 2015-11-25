@@ -1,10 +1,10 @@
 esp-serial-terminal
 ==========================
-WiFi serial port bridge. Additional feature - hard reset (off/on) PC by press and hold power button. 
+ESP8266 WiFi serial port bridge. Additional feature - hard reset (off/on) PC by press and hold power button. 
 Applicable for remote controll home server without monitor and keyboard. It allows choise OS in grub bootloader, input password for encrypdted root partition and type command in linux ttySX terminal.
 
 #Hardware
-Currently available for esp-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO 14 - because this GPIO logic level not change during boot.
+Currently available for ESP8266 ESP-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO 14 - because this GPIO logic level not change during boot.
 
 #Indication
 * GPIO02 LED blink if esp-serial-terminal start

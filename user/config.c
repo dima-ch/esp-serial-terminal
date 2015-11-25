@@ -87,7 +87,7 @@ void config_gpio(void) {
 	//Set GPIO14 to output mode
 	PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTMS_U, FUNC_GPIO14);
 	//Set GPIO2 high
-	GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+	GPIO_OUTPUT_SET(PWBTN_PIN, 0);
 }
 
 #ifdef CONFIG_STATIC

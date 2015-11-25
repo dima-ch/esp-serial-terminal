@@ -37,7 +37,13 @@ extern volatile char short_press_flag;
 extern volatile char long_press_flag;
 extern volatile char hardrest_press_flag;
 
+#define TIMER_DURATION_MS 500
+
+#define PWBTN_SHORT_PRESS_MS 500
+#define PWBTN_LONG_PRESS_MS 6000
+#define PWBTN_HARDRESET_PAUSE_MS 2000
+
 #define LED_PIN 2
-#define POWERBUTTON_PIN 14
+#define PWBTN_PIN 14
 
 #endif /* __CONFIG_H__ */
