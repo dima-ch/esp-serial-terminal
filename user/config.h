@@ -28,15 +28,16 @@ void config_parse(serverConnData *conn, char *buf, int len);
 
 #endif
 
-#define CONFIG_GPIO
-#ifdef CONFIG_GPIO
+
 #include <gpio.h>
 
 void config_gpio(void);
 
+extern volatile char short_press_flag;
+extern volatile char long_press_flag;
+extern volatile char hardrest_press_flag;
+
 #define LED_PIN 2
 #define POWERBUTTON_PIN 14
-
-#endif
 
 #endif /* __CONFIG_H__ */

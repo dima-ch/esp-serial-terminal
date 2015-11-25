@@ -30,6 +30,55 @@ extern  serverConnData connData[MAX_CONN];
 
 #define MAX_UARTBUFFER (MAX_TXBUFFER/4)
 static uint8 uartbuffer[MAX_UARTBUFFER];
+static volatile os_timer_t  main_timer;
+
+void led_rutine(void){
+	static char counter = 0;
+	if(counter%2){
+		GPIO_OUTPUT_SET(LED_PIN, 0);
+	} else {
+		GPIO_OUTPUT_SET(LED_PIN, 1);
+	}
+	counter++;
+}
+
+void gpio_rutine(void){
+	static int i = 0;
+	if (short_press_flag) {
+		if (i++ == 0) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+		} else if (i > 1) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			short_press_flag = 0;
+			i = 0;
+		}
+	} else if (long_press_flag) {
+		if (i++ == 0) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+		} else if (i > 10) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			long_press_flag = 0;
+			i = 0;
+		}
+	} else if (hardrest_press_flag) {
+		if (i++ == 0) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+		} else if (i == 10) {
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+		} else if(i == 14){
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
+		} else if(i > 15){
+			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			hardrest_press_flag = 0;
+			i = 0;
+		}
+	}
+}
+
+void main_timer_callback(void *arg){
+	led_rutine();
+	gpio_rutine();
+}
 
 static void ICACHE_FLASH_ATTR recvTask(os_event_t *events)
 {
@@ -60,9 +109,8 @@ static void ICACHE_FLASH_ATTR recvTask(os_event_t *events)
 // UartDev is defined and initialized in rom code.
 extern UartDevice    UartDev;
 
-void user_init(void)
+void ICACHE_FLASH_ATTR user_init(void)
 {
-
 	uint8_t i;
 	//wifi_set_opmode(3); //STA+AP
 
@@ -94,12 +142,16 @@ void user_init(void)
 		serverInit(23);
 	#endif
 
-	#ifdef CONFIG_GPIO
-		config_gpio();
-	#endif
+	config_gpio();
 
-	for (i = 0; i < 16; ++i)
-		uart0_sendStr("\r\n");
+	//for (i = 0; i < 16; ++i)
+//		uart0_sendStr("\r\n");
+
+
+    os_timer_disarm(&main_timer);
+
+	os_timer_setfn(&main_timer, (os_timer_func_t *)main_timer_callback, NULL);
+	os_timer_arm(&main_timer, 500, 1);
 
 	system_os_task(recvTask, recvTaskPrio, recvTaskQueue, recvTaskQueueLen);
 }

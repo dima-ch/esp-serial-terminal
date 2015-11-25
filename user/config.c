@@ -75,7 +75,6 @@ struct softap_config {
 
 #include "config.h"
 
-#ifdef CONFIG_GPIO
 void config_gpio(void) {
 	// Initialize the GPIO subsystem.
 	gpio_init();
@@ -90,7 +89,6 @@ void config_gpio(void) {
 	//Set GPIO2 high
 	GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
 }
-#endif
 
 #ifdef CONFIG_STATIC
 
@@ -194,33 +192,31 @@ void config_cmd_reset(serverConnData *conn, uint8_t argc, char *argv[]) {
 	system_restart();
 }
 
-
-#ifdef CONFIG_GPIO
+volatile char short_press_flag;
+volatile char long_press_flag;
+volatile char hardrest_press_flag;
 void config_cmd_power_button(serverConnData *conn, uint8_t argc, char *argv[]) {
 	if (argc == 0)
+	{
 		espbuffsentprintf(conn, "Args: SHORT - 0.5s press, LONG - 5s press, HARDRESET - 5s press, 2s pause, 0.5s press\r\n");
-	else {
-		if (!strcmp(argv[1], "SHORT")) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-			os_delay_us(500*1000);
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+	}
+	else
+	{
+		if(short_press_flag || long_press_flag || hardrest_press_flag)
+		{
+			espbuffsentstring(conn, MSG_ERROR); // power button command currently execute
+		}
+		else if (!strcmp(argv[1], "SHORT")) {
+			short_press_flag = 1;
 			espbuffsentstring(conn, "SHORT PRESS\r\n");
 		}
 		else if (!strcmp(argv[1], "LONG")) {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-			os_delay_us(5000*1000);
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
+			long_press_flag = 1;
 			espbuffsentstring(conn, "LONG PRESS\r\n");
 		}
 		else if (!strcmp(argv[1], "HARDRESET"))  {
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-			os_delay_us(5000*1000);
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
-			os_delay_us(1000*1000);
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 1);
-			os_delay_us(500*1000);
-			GPIO_OUTPUT_SET(POWERBUTTON_PIN, 0);
-			espbuffsentstring(conn, "LONG PRESS\r\n");
+			hardrest_press_flag = 1;
+			espbuffsentstring(conn, "HARDRESET\r\n");
 		}
 		else
 		{
@@ -228,7 +224,6 @@ void config_cmd_power_button(serverConnData *conn, uint8_t argc, char *argv[]) {
 		}
 	}
 }
-#endif
 
 void config_cmd_baud(serverConnData *conn, uint8_t argc, char *argv[]) {
 	flash_param_t *flash_param = flash_param_get();
