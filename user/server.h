@@ -20,6 +20,8 @@ struct serverConnData {
  		bool readytosend; //true, if txbuffer can send by espconn_sent
 };
 
+extern volatile char connected_client_flag;
+
 void ICACHE_FLASH_ATTR serverInit(int port);
 sint8  ICACHE_FLASH_ATTR espbuffsent(serverConnData *conn, const char *data, uint16 len);
 sint8  ICACHE_FLASH_ATTR espbuffsentstring(serverConnData *conn, const char *data);

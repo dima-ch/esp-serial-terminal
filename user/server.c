@@ -113,14 +113,19 @@ static void ICACHE_FLASH_ATTR serverReconCb(void *arg, sint8 err) {
 	//Yeah... No idea what to do here. ToDo: figure something out.
 }
 
+volatile char connected_client_flag = 0;
 static void ICACHE_FLASH_ATTR serverDisconCb(void *arg) {
 	//Just look at all the sockets and kill the slot if needed.
 	int i;
+	connected_client_flag = 0;
 	for (i=0; i<MAX_CONN; i++) {
 		if (connData[i].conn!=NULL) {
 			if (connData[i].conn->state==ESPCONN_NONE || connData[i].conn->state==ESPCONN_CLOSE) {
 				connData[i].conn=NULL;
 			}
+		}
+		if(connData[i].conn!=NULL){
+			connected_client_flag = 1;
 		}
 	}
 }
@@ -145,6 +150,8 @@ static void ICACHE_FLASH_ATTR serverConnectCb(void *arg) {
 	espconn_regist_reconcb(conn, serverReconCb);
 	espconn_regist_disconcb(conn, serverDisconCb);
 	espconn_regist_sentcb(conn, serverSentCb);
+
+	connected_client_flag = 1;
 }
 
 void ICACHE_FLASH_ATTR serverInit(int port) {

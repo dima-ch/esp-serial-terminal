@@ -34,7 +34,11 @@ static volatile os_timer_t  main_timer;
 
 void led_rutine(void){
 	static char counter = 0;
-	if(counter%2){
+	char dv = 2;
+	if(connected_client_flag){
+		dv = 5;
+	}
+	if(counter%dv){
 		GPIO_OUTPUT_SET(LED_PIN, 0);
 	} else {
 		GPIO_OUTPUT_SET(LED_PIN, 1);
@@ -144,12 +148,7 @@ void ICACHE_FLASH_ATTR user_init(void)
 
 	config_gpio();
 
-	//for (i = 0; i < 16; ++i)
-//		uart0_sendStr("\r\n");
-
-
     os_timer_disarm(&main_timer);
-
 	os_timer_setfn(&main_timer, (os_timer_func_t *)main_timer_callback, NULL);
 	os_timer_arm(&main_timer, 500, 1);
 
