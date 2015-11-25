@@ -4,6 +4,7 @@ ESP8266 WiFi serial port bridge. Additional feature - hard reset (off/on) PC by 
 Applicable for remote controll home server without monitor and keyboard. It allows choise OS in grub bootloader, input password for encrypdted root partition and type command in linux ttySX terminal.
 
 Firmware fork from [ESP8266-transparent-bridge project](https://github.com/beckdac/ESP8266-transparent-bridge).
+ESP8266 KiCAD Library [techinc-kicad-lib](https://github.com/techinc/techinc-kicad-lib).
 
 #Hardware
 Currently available for ESP8266 ESP-03 module. Schematic and PCB in KiCAD in folder schematic. GPIO2 connect to work mode indicate led. GPIO14 to power button of PC. GPIO 14 - because this GPIO logic level not change during boot.

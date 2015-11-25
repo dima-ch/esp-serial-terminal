@@ -1,6 +1,6 @@
-update=Tue 24 Nov 2015 03:44:40 PM MSK
+update=Wed 25 Nov 2015 03:30:48 PM MSK
 version=1
-last_client=kicad
+last_client=pcbnew
 [eeschema]
 version=1
 LibDir=
@@ -47,25 +47,27 @@ version=1
 NetIExt=net
 [cvpcb/libraries]
 EquName1=devcms
+[general]
+version=1
 [pcbnew]
 version=1
 LastNetListRead=esp-com.net
 UseCmpFile=1
-PadDrill=0.350000000000
-PadDrillOvalY=0.350000000000
-PadSizeH=2.200000000000
-PadSizeV=2.200000000000
-PcbTextSizeV=1.500000000000
-PcbTextSizeH=1.500000000000
-PcbTextThickness=0.300000000000
-ModuleTextSizeV=1.000000000000
-ModuleTextSizeH=1.000000000000
-ModuleTextSizeThickness=0.150000000000
-SolderMaskClearance=0.000000000000
-SolderMaskMinWidth=0.000000000000
-DrawSegmentWidth=0.200000000000
-BoardOutlineThickness=0.100000000000
-ModuleOutlineThickness=0.150000000000
+PadDrill="    0,400000"
+PadDrillOvalY="    0,400000"
+PadSizeH="    2,200000"
+PadSizeV="    2,200000"
+PcbTextSizeV="    1,500000"
+PcbTextSizeH="    1,500000"
+PcbTextThickness="    0,300000"
+ModuleTextSizeV="    1,000000"
+ModuleTextSizeH="    1,000000"
+ModuleTextSizeThickness="    0,150000"
+SolderMaskClearance="    0,000000"
+SolderMaskMinWidth="    0,000000"
+DrawSegmentWidth="    0,200000"
+BoardOutlineThickness="    0,100000"
+ModuleOutlineThickness="    0,150000"
 [pcbnew/libraries]
 LibDir=
 LibName1=sockets
@@ -85,9 +87,6 @@ LibName14=dip_sockets
 LibName15=pga_sockets
 LibName16=valves
 LibName17=esp-my
-LibName18=PL_DIP
-LibName19=esp8266
-LibName20=w_conn_rf
-LibName21=relay
-[general]
-version=1
+LibName18=esp8266
+LibName19=w_conn_rf
+LibName20=relay
