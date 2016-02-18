@@ -3,7 +3,7 @@ esp-serial-terminal
 ESP8266 WiFi serial port bridge. Additional feature - hard reset (off/on) PC by press and hold power button. 
 Applicable for remote controll home server without monitor and keyboard. It allows choise OS in grub bootloader, input password for encrypdted root partition and type command in linux ttySX terminal.
 
-Precompiled firmware in [releases](https://github.com/dima-ch/esp-serial-terminal/releases)
+Precompiled firmware in [releases](https://github.com/dima-ch/esp-serial-terminal/releases).
 
 Firmware fork from [ESP8266-transparent-bridge project](https://github.com/beckdac/ESP8266-transparent-bridge).
 ESP8266 KiCAD Library [techinc-kicad-lib](https://github.com/techinc/techinc-kicad-lib).

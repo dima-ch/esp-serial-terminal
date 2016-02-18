@@ -1,7 +1,7 @@
 #ifndef CONFIG_PARSE_TEST_UNIT
 
 // this is the normal build target ESP include set
-#include "espmissingincludes.h"
+//#include "espmissingincludes.h"
 #include "c_types.h"
 #include "user_interface.h"
 #include "espconn.h"
@@ -43,14 +43,14 @@ struct softap_config {
 	uint8_t max_connection;
 };
 
-#define os_sprintf	sprintf
-#define os_malloc	malloc
-#define os_strncpy	strncpy
-#define os_strncmp	strncmp
-#define os_free		free
-#define os_bzero	bzero
-#define os_memcpy	memcpy
-#define os_memset	memset
+// #define os_sprintf	sprintf
+// #define os_malloc	malloc
+// #define os_strncpy	strncpy
+// #define os_strncmp	strncmp
+// #define os_free		free
+// #define os_bzero	bzero
+// #define os_memcpy	memcpy
+// #define os_memset	memset
 
 #define espconn_sent(conn, buf, len)	printf(buf)
 
@@ -154,7 +154,7 @@ char *my_strdup(char *str) {
 	char *copy;
 
 	len = strlen(str) + 1;
-	if (!(copy = os_malloc((u_int)len)))
+	if (!(copy = (char*)os_malloc((u_int)len)))
 		return (NULL);
 	os_memcpy(copy, str, len);
 	return (copy);

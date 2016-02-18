@@ -12,13 +12,13 @@ BUILD_BASE	= build
 FW_BASE		= firmware
 
 # Base directory for the compiler
-XTENSA_TOOLS_ROOT ?= /home/dima/.bin/esp-open-sdk/xtensa-lx106-elf/bin
+XTENSA_TOOLS_ROOT ?= /home/dima/.bin/esp-open-sdk-1.4/xtensa-lx106-elf/bin
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= /home/dima/.bin/esp-open-sdk/esp_iot_sdk_v1.2.0
+SDK_BASE	?= /home/dima/.bin/esp-open-sdk-1.4/esp_iot_sdk_v1.4.0
 
 #Esptool.py path and port
-ESPTOOL		?= /home/dima/.bin/esp-open-sdk/esptool/esptool.py
+ESPTOOL		?= /home/dima/.bin/esp-open-sdk-1.4/esptool/esptool.py
 ESPPORT		?= /dev/ttyUSB0
 
 # name for the target project
@@ -26,7 +26,7 @@ TARGET		= app
 
 # which modules (subdirectories) of the project to include in compiling
 MODULES		= driver user
-EXTRA_INCDIR    = include /opt/Espressif/include
+EXTRA_INCDIR    = include 
 
 # libraries used in this project, mainly provided by the SDK
 LIBS		= c gcc hal pp phy net80211 lwip wpa main
